@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Навчання катанню на фінгерборді</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: #f4f0ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background: #a084dc;
+            color: white;
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            justify-content: space-between;
+            flex: 1;
+        }
+        .sidebar {
+            width: 250px;
+            background: #c2a3ff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
+            cursor: pointer;
+            display: block;
+            padding: 10px;
+            border-radius: 20px;
+            background: #a084dc;
+            text-align: center;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: #8d72cc;
+        }
+        .content {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+        }
+        .lesson {
+            margin: 20px 0;
+            padding: 15px;
+            border: solid 1px #ddd;
+            border-radius: 8px;
+            background: #f9f9ff;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .lesson ul li a {
+            display: block;
+            padding: 10px;
+            border-radius: 20px;
+            background: #a084dc;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .lesson ul li a:hover {
+            background: #8d72cc;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #a084dc;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        .menu-btn {
+            background: #a084dc;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .menu-btn:hover {
+            background: #8d72cc;
+        }
+        #welcome-section {
+            display: block;
+            margin-bottom: 30px;
+        }
+        .status-container {
+            background: #e0d7ff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: left;
+            margin-left: 20px;
+        }
+        .status-container h3 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .status-container p {
+            margin: 5px 0;
+        }
+        .status-container .progress-bar-container {
+            background: #ddd;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .status-container .progress-bar {
+            background: #a084dc;
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        let completedLessons = 0; // Скільки уроків переглянуто
+        const totalLessons = 12; // Загальна кількість уроків
+
+        function updateProgress() {
+            const progress = (completedLessons / totalLessons) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('progress-text').innerText = `Прогрес: ${Math.round(progress)}%`;
+            document.getElementById('completed-courses').innerText = `Завершені курси: ${completedLessons}`;
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.lesson').forEach(section => {
+                section.style.display = 'none';
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+            });
+            const selectedSection = document.getElementById(id);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+                setTimeout(() => {
+                    selectedSection.style.opacity = 1;
+                    selectedSection.style.transform = 'translateY(0)';
+                }, 100);
+            }
+            document.getElementById('menu-btn').style.display = 'block';
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('status-container').style.display = 'none';
+        }
+
+        function showWelcome() {
+            document.querySelectorAll('.lesson').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('welcome-section').style.display = 'block';
+            document.getElementById('menu-btn').style.display = 'block';
+            document.getElementById('status-container').style.display = 'block';
+        }
+
+        function markLessonAsCompleted() {
+            completedLessons++;
+            updateProgress();
+        }
+    </script>
+</head>
+<body>
+    <header>Навчання катанню на фінгерборді</header>
+    <div class="main-container">
+        <nav class="sidebar">
+            <ul>
+                <li><a onclick="showSection('ollie_section')">Оллі</a></li>
+                <li><a onclick="showSection('flips_section')">Фліпи</a></li>
+                <li><a onclick="showSection('grinds_section')">Грайнди</a></li>
+                <li><a id="menu-btn" class="menu-btn" onclick="showWelcome()">Головне меню</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <div id="welcome-section">
+                <h1>Ласкаво просимо до навчання фінгербордингу!</h1>
+                <p>Оберіть категорію трюків для перегляду відеоуроків.</p>
+            </div>
+            <div id="ollie_section" class="lesson">
+                <h2>Оллі</h2>
+                <ul>
+                    <li><a href="https://youtu.be/5uvD3uxlXt0" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Оллі</a></li>
+                    <li><a href="https://youtube.com/shorts/S1CmdxZb_pg" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Ноллі</a></li>
+                </ul>
+            </div>
+            <div id="flips_section" class="lesson">
+                <h2>Фліпи</h2>
+                <ul>
+                    <li><a href="https://youtu.be/SGxvzBcDFMs" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Кікфліп</a></li>
+                    <li><a href="https://youtube.com/shorts/FJ08Im-J4EQ" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Дабл кікфліп</a></li>
+                    <li><a href="https://youtube.com/shorts/U-eT8k16qCo" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Трехфліп</a></li>
+                    <li><a href="https://youtu.be/vd0iWemXNoM" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Casper Flip</a></li>
+                    <li><a href="https://youtube.com/shorts/H-W5iuNmb5Q" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Darkslide</a></li>
+                </ul>
+            </div>
+            <div id="grinds_section" class="lesson">
+                <h2>Грайнди</h2>
+                <ul>
+                    <li><a href="https://youtube.com/shorts/g0TiBg33BLM" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Nosegrind</a></li>
+                    <li><a href="https://youtube.com/shorts/2l8owIlOh9Y" target="_blank" rel="noopener noreferrer" onclick="markLessonAsCompleted()">Crooked Grind</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="status-container" id="status-container">
+            <h3>Мій статус:</h3>
+            <p id="progress-text">Прогрес: 0%</p>
+            <p id="completed-courses">Завершені курси: 0</p>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        © 2025 Навчання катанню на фінгерборді
+    </footer>
+</body>
+</html>
